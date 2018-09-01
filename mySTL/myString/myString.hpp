@@ -6,6 +6,7 @@ class myString{
     char *p;
     size_t length;
     size_t getSizeOfConstChar(const char*);
+    char* allocateMemory(size_t);
     public:
     static const size_t npos = -1;
     myString();
@@ -13,7 +14,7 @@ class myString{
     myString(const char*,size_t);
     myString(const myString&);
     myString(myString&&);
-    myString(int,char);
+    myString(size_t,char);
     myString& operator = (const myString&);
     myString& operator = (myString&&);
     const char* c_str();
@@ -21,7 +22,7 @@ class myString{
     bool operator > (const myString&);
     bool operator < (const myString&);
     operator const char*();
-    int get_length();
+    size_t get_length() const;
     char& operator[](int i);
     char& at(int i);
     myString operator + (const myString&);
