@@ -1,13 +1,16 @@
+#ifndef MYSTRING_PROTO
+#define MYSTRING_PROTO
 #include<string.h>
 
 class myString{
     char *p;
     size_t length;
+    size_t getSizeOfConstChar(const char*);
     public:
     static const size_t npos = -1;
     myString();
     ~myString();
-    myString(const char*,int);
+    myString(const char*,size_t);
     myString(const myString&);
     myString(myString&&);
     myString(int,char);
@@ -29,3 +32,5 @@ class myString{
     myString substr (size_t pos = 0, size_t len = npos) const;
     
 };
+
+#endif
