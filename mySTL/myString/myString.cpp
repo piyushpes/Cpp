@@ -76,12 +76,13 @@ myString::myString(const myString& tmp){
 
 myString::myString (const myString& str, size_t pos, size_t len){
     cout<<"Substring Constructor\n";
-    if(pos+len > str.length -1)
-        len=str.length-1;
-    else len+=pos;
 
-    p=allocateMemory(len-pos+1);
-    for(int i=pos;i<=len;i++){
+    if(len==npos || pos+len > str.length -1)
+        len=str.length;
+    else len+=pos;
+    //cout<<len;
+    p=allocateMemory(len-pos);
+    for(int i=pos;i<len;i++){
         p[i-pos]=str.p[i];
     }
     p[len+1-pos]='\0';
@@ -155,14 +156,101 @@ myString& myString::operator = (myString&& obj){
     *this; 
 }
 
+const char* myString::c_str() const{
+    return const_cast<const char*>(p);
+}
+
+bool myString::operator == (const myString& ob) const{
+    return strcmp(p,ob.p)? false:true;
+}
+
+bool myString::operator < (const myString& ob) const{
+    return (strcmp(p,ob.p)<0)? true:false;
+}
+
+bool myString::operator > (const myString& ob) const{
+    return (strcmp(p,ob.p)>0)? true:false;
+}
+
+size_t myString::get_length() const{
+    return length;
+}
+
+char& myString::operator[](int i) const{//if i> lenght then the last charcter reference is returned
+    if(i>=length){
+        return p[length-1];
+    }
+    return p[i];
+}
+
+char& myString::at(int i) const{
+    return (*this)[i];
+}
+
+myString myString::operator + (const myString& obj){
+    myString tmp;
+    tmp.length=length+obj.length;
+    tmp.p=allocateMemory(tmp.length);
+    strcpy(tmp.p,p);
+    strcat(tmp.p,obj.p);
+    return tmp;
+}
+
+void myString::operator +=(const myString& obj){
+    //length=length+obj.length;
+    //char *tmp=allocateMemory(length);
+    //strcpy(tmp,p);
+    //strcat(tmp,obj.p);
+    //delete []p;
+    //p=tmp;
+    (*this)=(*this)+obj;
+}
+
+void myString::append(const myString& obj){
+    *this += obj;
+}
+
+void myString::append(const char * ptr){
+    *this += myString(ptr);
+}
+
+size_t myString::find(const char* ptr,size_t n){
+    size_t charSize=getSizeOfConstChar(ptr);
+    size_t pos=npos;
+    if(n>=length || (charSize + n)>length)
+        return npos;
+
+    for(int i=n;i<length-charSize+1;i++){
+        if(p[i]==ptr[0]){
+            pos=i;
+            int j=1;
+            while(j<charSize){
+                if(ptr[j]!=p[i+j]){
+                    break;
+                }
+                j++;
+            }
+            if(j==charSize){
+                return pos;
+            }
+            
+        }
+    }
+    return npos;
+}
+
+myString myString::substr (size_t pos, size_t len) const{
+    if(pos>=length)
+        return myString();
+    if(len==npos || (pos+len) >= length){
+        len=length-pos;
+    }
+    return myString(*this,pos,len);
+}
+
 int main(){
-    myString a("Piyush Jain",6);
-    cout<<static_cast<const char*>(a)<<"\n";
-    myString b;
-    b=a;
-    cout<<static_cast<const char*>(b)<<"\n";
-    b="Jain";
-    cout<<static_cast<const char*>(b)<<"\n";
-    b=myString("Bosch");
-    cout<<static_cast<const char*>(b)<<"\n";
+    myString a("Piyush Jain");
+    myString b=a.substr(7,4);
+    cout<<static_cast<const char*>(b);
+    
 }

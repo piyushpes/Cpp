@@ -20,19 +20,19 @@ class myString{
     myString& operator = (const myString&);
     myString& operator = (const char *);
     myString& operator = (myString&&);
-    const char* c_str();
-    bool operator == (const myString&);
-    bool operator > (const myString&);
-    bool operator < (const myString&);
+    const char* c_str() const;
+    bool operator == (const myString&) const;
+    bool operator > (const myString&) const;
+    bool operator < (const myString&) const;
     explicit operator const char*();
     size_t get_length() const;
-    char& operator[](int i);
-    char& at(int i);
+    char& operator[](int i) const;
+    char& at(int i) const;
     myString operator + (const myString&);
     void operator +=(const myString&);
     void append(const myString&);
     void append(const char *);
-    size_t find(const char*,int) const;
+    size_t find(const char*,size_t);
     myString substr (size_t pos = 0, size_t len = npos) const;
     
 };
