@@ -248,9 +248,25 @@ myString myString::substr (size_t pos, size_t len) const{
     return myString(*this,pos,len);
 }
 
+myString::iterator myString::begin(){
+    myString::iterator it(p);
+    return it;
+}
+
+myString::iterator myString::end(){
+    myString::iterator it(p + length);
+    return it;
+}
+
 int main(){
     myString a("Piyush Jain");
-    myString b=a.substr(7,4);
-    cout<<static_cast<const char*>(b);
     
+    
+    cout<<"\n";
+
+    for(auto it=a.begin();it!=a.end();++it)
+        cout<<*it;
+
+    cout<<"\n";
+
 }
